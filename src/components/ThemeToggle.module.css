@@ -1,0 +1,27 @@
+.themeToggle {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: transform 0.3s ease;
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 1000;
+  background-color: var(--background-secondary);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.themeToggle:hover {
+  transform: scale(1.1);
+}
+
+@media (max-width: 768px) {
+  .themeToggle {
+    bottom: 1rem;
+    right: 1rem;
+    font-size: 1.25rem;
+  }
+}
