@@ -1,5 +1,5 @@
 import React from "react";
-import Footer from "../commons/footer";
+import Footer from "../commons/Footer";
 import NavBar from "../commons/NavBar";
 import ChatPopup from "../commons/ChatPopup";
 import styles from "./css/Home.module.css";
