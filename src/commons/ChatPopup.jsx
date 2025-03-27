@@ -13,6 +13,11 @@ const ChatPopup = () => {
   const [sessionId] = useState(() => Math.random().toString(36).substring(7));
   const chatContentRef = useRef(null);
 
+  // Function to convert markdown bold to HTML
+  const convertMarkdownToHtml = (text) => {
+    return text.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+  };
+
   const toggleChat = async () => {
     setIsOpen(!isOpen);
     if (!isOpen) {
@@ -45,7 +50,7 @@ const ChatPopup = () => {
       setIsLoading(true);
 
       // Check if this is the opt-in response
-      if (!hasOptedIn && messages.length === 2) {
+      if (!hasOptedIn && messages.length === 1) {
         const optInResponse = message.toLowerCase();
         if (optInResponse === "yes") {
           setHasOptedIn(true);
@@ -98,10 +103,15 @@ const ChatPopup = () => {
 
         const data = await response.json();
 
-        // Add system response to chat
+        // Convert markdown to HTML and add system response to chat
+        const htmlResponse = convertMarkdownToHtml(data.response);
         setMessages((prevMessages) => [
           ...prevMessages,
-          { text: data.response, sender: "system" },
+          {
+            text: htmlResponse,
+            sender: "system",
+            isHtml: true,
+          },
         ]);
       } catch (error) {
         console.error("Error:", error);
@@ -150,7 +160,11 @@ const ChatPopup = () => {
                     : styles.systemBubble
                 }
               >
-                {msg.text}
+                {msg.isHtml ? (
+                  <div dangerouslySetInnerHTML={{ __html: msg.text }} />
+                ) : (
+                  msg.text
+                )}
               </div>
             ))}
             {isLoading && (
